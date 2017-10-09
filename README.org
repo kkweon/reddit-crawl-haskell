@@ -1,4 +1,4 @@
-* Reddit Machine Learning Crawl
+* Scrap Reddit Machine Learning SubReddit
 
 It does two things
 
