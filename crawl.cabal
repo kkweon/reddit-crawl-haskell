@@ -1,0 +1,34 @@
+name:                crawl
+version:             0.1.0.0
+-- synopsis:
+-- description:
+homepage:            https://github.com/kkweon/crawl#readme
+license:             BSD3
+license-file:        LICENSE
+author:              Kyung Mo Kweon
+maintainer:          kkweon@gmail.com
+copyright:           (c) 2017 Kyung Mo Kweon
+category:            Web
+build-type:          Simple
+cabal-version:       >=1.10
+extra-source-files:  README.org
+data-files:          config/config.yml
+
+
+executable crawl
+  hs-source-dirs:      src
+  main-is:             Main.hs
+  other-modules:       Reddit
+                     , Export
+                     , Config
+  default-language:    Haskell2010
+  build-depends:       base >= 4.7 && < 5
+                     , scalpel == 0.5.1
+                     , curl == 1.3.8
+                     , HaskellNet == 0.5.1
+                     , smtps-gmail == 1.3.2
+                     , mime-mail == 0.4.14
+                     , text == 1.2.2.2
+                     , yaml == 0.8.23.3
+                     , bytestring == 0.10.8.1
+                     , aeson == 1.1.2.0

@@ -1,0 +1,7 @@
+username: "kkweon"
+password: "password"
+recipients:
+  - email: "kkweon@gmail.com"
+    name: "Mo"
+  - email: "k9ts@naver.com"
+    name: "k9ts"
