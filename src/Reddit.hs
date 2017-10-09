@@ -41,9 +41,9 @@ So, skip the two items
 skipFirstTwoItems :: [RedditPost] -> [RedditPost]
 skipFirstTwoItems = tail . tail
 
-checkLengthAndSkip :: Maybe [RedditPost] -> Maybe [RedditPost]
-checkLengthAndSkip Nothing = Nothing
+checkLengthAndSkip :: Maybe [RedditPost] -> IO (Maybe [RedditPost])
+checkLengthAndSkip Nothing = return Nothing
 checkLengthAndSkip (Just posts) =
   if length posts > 2
-  then Just $ skipFirstTwoItems posts
-  else Nothing
+  then return (Just $ skipFirstTwoItems posts)
+  else return Nothing

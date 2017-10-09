@@ -2,7 +2,7 @@
 
 module Main where
 
-import           Reddit
+import           Reddit (getPosts, checkLengthAndSkip)
 import Export (sendEmail)
 import Config (readConfig)
 import Paths_crawl (getDataFileName)
@@ -13,10 +13,10 @@ main = do
   configData <- readConfig filename
   case configData of
     Just (user, pass, recipients) -> do
-      posts <- getPosts
+      posts <- getPosts >>= checkLengthAndSkip
       case posts of
         Just posts ->
-          sendEmail user pass recipients posts
+          sendEmail user pass recipients (posts)
         Nothing ->
           print "Failed to fetch any post"
     Nothing -> do
