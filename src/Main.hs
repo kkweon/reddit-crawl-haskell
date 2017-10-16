@@ -5,7 +5,7 @@ module Main where
 import           Config      (readConfig)
 import           Export      (sendEmail)
 import           Paths_crawl (getDataFileName)
-import           Reddit      (checkLengthAndSkip, getPosts)
+import           Reddit      (getPosts, noGoodPost)
 
 {-|
 1. Read config/config.yml
@@ -19,7 +19,7 @@ main = do
 
   case configData of
     Just (user, pass, recipients) -> do
-      posts <- getPosts >>= checkLengthAndSkip
+      posts <- getPosts >>= noGoodPost
 
       case posts of
         Just posts -> sendEmail user pass recipients (posts)

@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Reddit where
 
+import           Data.List         (isInfixOf)
 import           Network.Curl.Opts
 import           Text.HTML.Scalpel
 
@@ -49,21 +50,14 @@ getPosts = scrapeURLWithOpts curlOptions redditURL posts
          link <- attr "href" $ "a" @: [hasClass "bylink"]
          return $ RedditPost title link
 
+-- | If title contains the following string, skip
+skipList :: [String]
+skipList = ["Machine Learning - WAYR (What Are You Reading)"]
 
-{-|
-First two rediit posts are pinned posts
-which are not useful, so skip the first two items
--}
-skipFirstTwoItems :: [RedditPost] -> [RedditPost]
-skipFirstTwoItems = tail . tail
-
-{-|
-If there are more than two, skip two
-If not, something wrongs (Nothing)
--}
-checkLengthAndSkip :: Maybe [RedditPost] -> IO (Maybe [RedditPost])
-checkLengthAndSkip Nothing = return Nothing
-checkLengthAndSkip (Just posts) =
-  if length posts > 2
-  then return (Just $ skipFirstTwoItems posts)
-  else return Nothing
+noGoodPost :: Maybe [RedditPost] -> IO (Maybe [RedditPost])
+noGoodPost Nothing = return Nothing
+noGoodPost (Just posts) =
+  return . Just $ filterUnless isInSkipList posts
+  where
+    filterUnless f = filter (not . f)
+    isInSkipList (RedditPost title _) = foldr (\x acc -> (isInfixOf x title) || acc) False skipList
